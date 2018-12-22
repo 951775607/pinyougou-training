@@ -1,0 +1,11 @@
+#配置activeMQ的服务信息
+spring:
+  activemq:
+    broker-url: tcp://192.168.12.168:61616
+# 修改内嵌 tomcat 端口号；默认为 9003
+server:
+  port: 9003
+
+# 阿里大于那里申请的 accessKey 信息
+accessKeyId: LTAINs6bfRqh2vAL
+accessKeySecret: BaZMlF9Sr2xdUYtCKaQhhuYKxvlAha

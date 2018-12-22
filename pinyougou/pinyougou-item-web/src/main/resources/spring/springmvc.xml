@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--加载配置文件-->
+    <context:property-placeholder location="classpath:properties/page.properties"/>
+
+    <mvc:annotation-driven>
+
+        <mvc:message-converters register-defaults="true">
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes"
+                          value="application/json"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--配置Freemarker配置对象-->
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <!--指定模版路径-->
+        <property name="templateLoaderPath" value="/views"/>
+        <!--设置编码-->
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+    <!--配置Freemarker视图解析器-->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html;charset=utf-8"/>
+    </bean>
+
+    <!--  引用 dubbo  服务  -->
+    <!--消费者名称-->
+    <dubbo:application name="pinyougou-item-web"/>
+    <!--注册中心地址-->
+    <dubbo:registry address="zookeeper://192.168.12.168:2181"/>
+    <!--扫描需要使用远程服务对象的注解所在的包-->
+    <dubbo:annotation package="com.pinyougou.item"/>
+</beans>
